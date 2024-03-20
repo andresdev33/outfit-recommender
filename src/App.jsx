@@ -1,31 +1,13 @@
-import React from 'react';
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from 'react-router-dom';
-
-
-import Home from './pages/home/Home';
-import OutfitRecommender from './pages/outfitRecommender/OutfitRecommender';
+import Navbar from "./components/NavBar.jsx";
+import OutfitRouter from "./router/OutfitRouter.jsx";
 
 const App = () => {
-
-  const router = createBrowserRouter([
-    {
-      path: '/',
-      element: <Home />,
-    },
-    {
-      path: '/outfit-recommender',
-      element: <OutfitRecommender />,
-    },
-  ]);
-
-  return (
-    <React.StrictMode>
-      <RouterProvider router={router} />
-    </React.StrictMode>
-  );
+    return (
+        <>
+            <Navbar/>
+            <OutfitRouter />
+        </>
+    );
 };
 
 export default App;
