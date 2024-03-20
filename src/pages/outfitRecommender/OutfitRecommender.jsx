@@ -74,8 +74,7 @@ const OutfitRecommender = () => {
         {loading && <Loader/>}
         {error && <Error error={error}/>}
         {avatar && <Avatar avatarImg={avatar}/>}
-        {avatar && <h2>Other Options</h2>}
-        <Gallery photos={galleryPhotos}/>
+        <Gallery photos={galleryPhotos} showOtherOptions={!!avatar}/>
       </div>
   );
 };
