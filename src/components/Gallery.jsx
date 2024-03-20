@@ -4,7 +4,12 @@ const Gallery = ({ photos }) => {
     return (
         <div className={classes.gallery}>
             {photos.map((photo, index) => (
-                <img key={index} src={photo} alt={`Photo ${index}`} />
+                <img
+                    key={index}
+                    src={photo.source ?? photo}
+                    alt={`Photo ${index}`}
+                    title={photo.message ?? `${photo.replace('.png', '').replace('img/', '')}`}
+                />
             ))}
         </div>
     );
