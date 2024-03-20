@@ -7,8 +7,12 @@ import PhotoPreview from '../../components/PhotoPreview';
 import FileInput from '../../components/FileInput';
 import classes from './OutfitRecommender.module.css';
 
+import { pantalones, remeras, zapatos } from "../../constants/clothes.js";
+import Avatar from "../../components/Avatar.jsx";
+
 const OutfitRecommender = () => {
   const [selectedImage, setSelectedImage] = useState(null);
+  const [avatar, setAvatar] = useState(null);
   const [galleryPhotos, setGalleryPhotos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -30,15 +34,10 @@ const OutfitRecommender = () => {
     if (!selectedImage) return;
 
     // TODO:  remove this array
-    const image = [
-      'img/women-1.png',
-      'img/women-2.png',
-      'img/women-3.png',
-      'img/women-4.png',
-      'img/women-5.png',
-      'img/shoes-1.png',
-      'img/cloth-1.png',
-      'img/cloth-2.png'
+    const images = [
+        ...remeras,
+        ...pantalones,
+        ...zapatos
     ];
 
     setLoading(true);
@@ -47,7 +46,8 @@ const OutfitRecommender = () => {
     // TODO:  remove this timeout and replace with the commented code below
     setTimeout(() => {
       setLoading(false);
-      setGalleryPhotos([...galleryPhotos, ...image]);
+      setAvatar(selectedImage);
+      setGalleryPhotos([...galleryPhotos, ...images]);
     }, 4000);
 
     // try {
@@ -56,7 +56,8 @@ const OutfitRecommender = () => {
     //   });
     //   console.log('Image uploaded successfully:', response.data);
     // TODO: process response data and add it to the array
-    //   setGalleryPhotos([...galleryPhotos, image]); // From the API results
+    //   setAvatar(response.data.avatar);
+    //   setGalleryPhotos([...galleryPhotos, response.avatar.images]); // From the API results
     //   setLoading(false);
     // } catch (error) {
     //   console.error('Error uploading image:', error);
@@ -66,14 +67,16 @@ const OutfitRecommender = () => {
   };
 
   return (
-    <div className={classes.app}>
-      <h1>Outfit Recommender</h1>
-      <FileInput handleImageUpload={handleImageUpload} />
-      {selectedImage && (<PhotoPreview selectedImage={selectedImage} handleImageSubmit={handleImageSubmit} />)}
-      {loading && <Loader />}
-      {error && <Error error={error} />}
-      <Gallery photos={galleryPhotos} />
-    </div>
+      <div className={classes.app}>
+        <h1>Outfit Recommender</h1>
+        <FileInput handleImageUpload={handleImageUpload}/>
+        {selectedImage && (<PhotoPreview selectedImage={selectedImage} handleImageSubmit={handleImageSubmit}/>)}
+        {loading && <Loader/>}
+        {error && <Error error={error}/>}
+        {avatar && <Avatar avatarImg={avatar}/>}
+        {avatar && <h2>Other Options</h2>}
+        <Gallery photos={galleryPhotos}/>
+      </div>
   );
 };
 
