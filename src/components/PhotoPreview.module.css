@@ -7,9 +7,10 @@
 }
 
 .preview-image {
-    max-width: 40%;
+    max-width: fit-content;
     margin-top: 10px;
     margin-bottom: 20px;
+    height: 300px;
 }
 
 .upload-button {

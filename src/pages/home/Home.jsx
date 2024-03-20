@@ -10,7 +10,7 @@ const Home = () => {
   ]
 
   return (
-    <div>
+    <div style={{padding : '2rem'}}>
       <h1>Ecommerce</h1>
       <Gallery photos={galleryPhotos} />
     </div>
