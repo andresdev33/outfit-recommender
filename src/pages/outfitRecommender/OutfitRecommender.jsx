@@ -7,8 +7,9 @@ import PhotoPreview from '../../components/PhotoPreview';
 import FileInput from '../../components/FileInput';
 import classes from './OutfitRecommender.module.css';
 
-import { pantalones, remeras, zapatos } from "../../constants/clothes.js";
 import Avatar from "../../components/Avatar.jsx";
+import { API_ENDPOINT, API_PATHS } from "../../constants/endpoints.js";
+import axios from "axios";
 
 const OutfitRecommender = () => {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -33,49 +34,38 @@ const OutfitRecommender = () => {
   const handleImageSubmit = async () => {
     if (!selectedImage) return;
 
-    // TODO:  remove this array
-    const images = [
-        ...remeras,
-        ...pantalones,
-        ...zapatos
-    ];
-
     setLoading(true);
     setError(null);
 
-    // TODO:  remove this timeout and replace with the commented code below
-    setTimeout(() => {
-      setLoading(false);
-      setAvatar(selectedImage);
-      setGalleryPhotos([...galleryPhotos, ...images]);
-    }, 4000);
+    try {
+      const response = await axios.post(`${API_ENDPOINT}${API_PATHS.POST}`, {
+        image: selectedImage,
+      });
 
-    // try {
-    //   const response = await axios.post('AI_RECOMMENDER_ENDPOINT', {
-    //     image: selectedImage,
-    //   });
-    //   console.log('Image uploaded successfully:', response.data);
-    // TODO: process response data and add it to the array
-    //   setAvatar(response.data.avatar);
-    //   setGalleryPhotos([...galleryPhotos, response.avatar.images]); // From the API results
-    //   setLoading(false);
-    // } catch (error) {
-    //   console.error('Error uploading image:', error);
-    //   setError('An error occurred while uploading the image. Please try again.');
-    //   setLoading(false);
-    // }
+      console.log('[RESPONSE]: ', response);
+      console.log('[RESPONSE] Data: ', response.data);
+
+      setAvatar(selectedImage);
+      const responsePhotos = response.data.map(item => item.source);
+      setGalleryPhotos([...galleryPhotos, ...responsePhotos]);
+      setLoading(false);
+    } catch (error) {
+      console.error('[ERROR] Error uploading image:', error);
+      setError('An error occurred while uploading the image. Please try again.');
+      setLoading(false);
+    }
   };
 
   return (
-      <div className={classes.app}>
-        <h1>Outfit Recommender</h1>
-        <FileInput handleImageUpload={handleImageUpload}/>
-        {selectedImage && (<PhotoPreview selectedImage={selectedImage} handleImageSubmit={handleImageSubmit}/>)}
-        {loading && <Loader/>}
-        {error && <Error error={error}/>}
-        {avatar && <Avatar avatarImg={avatar}/>}
-        <Gallery photos={galleryPhotos} showOtherOptions={!!avatar}/>
-      </div>
+    <div className={classes.app}>
+      <h1>Outfit Recommender</h1>
+      <FileInput handleImageUpload={handleImageUpload} />
+      {selectedImage && (<PhotoPreview selectedImage={selectedImage} handleImageSubmit={handleImageSubmit} />)}
+      {loading && <Loader />}
+      {error && <Error error={error} />}
+      {avatar && <Avatar avatarImg={avatar} />}
+      <Gallery photos={galleryPhotos} showOtherOptions={!!avatar} />
+    </div>
   );
 };
 

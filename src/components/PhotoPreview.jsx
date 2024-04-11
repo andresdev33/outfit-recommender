@@ -1,7 +1,6 @@
 import classes from './PhotoPreview.module.css';
 
 const PhotoPreview = ({ selectedImage, handleImageSubmit }) => {
-    console.log(selectedImage);
     return <div className={classes['preview-container']}>
         <h2>Your Photo</h2>
         <img src={selectedImage} alt="Preview" className={classes['preview-image']} />
