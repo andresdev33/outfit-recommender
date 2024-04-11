@@ -25,7 +25,7 @@ const OutfitRecommender = () => {
       const reader = new FileReader();
       reader.onload = (e) => {
         const image = e.target.result;
-        setSelectedImage(image); // Ready in Base64
+        setSelectedImage(image);
       };
       reader.readAsDataURL(file);
     }
@@ -42,12 +42,11 @@ const OutfitRecommender = () => {
         image: selectedImage,
       });
 
-      console.log('[RESPONSE]: ', response);
       console.log('[RESPONSE] Data: ', response.data);
 
       setAvatar(selectedImage);
-      const responsePhotos = response.data.map(item => item.source);
-      setGalleryPhotos([...galleryPhotos, ...responsePhotos]);
+      const responsePhotos = response.data.map(item => `img/${item.source}`);
+      setGalleryPhotos([selectedImage, ...responsePhotos]);
       setLoading(false);
     } catch (error) {
       console.error('[ERROR] Error uploading image:', error);
@@ -63,8 +62,7 @@ const OutfitRecommender = () => {
       {selectedImage && (<PhotoPreview selectedImage={selectedImage} handleImageSubmit={handleImageSubmit} />)}
       {loading && <Loader />}
       {error && <Error error={error} />}
-      {avatar && <Avatar avatarImg={avatar} />}
-      <Gallery photos={galleryPhotos} showOtherOptions={!!avatar} />
+      <Gallery photos={galleryPhotos} showOtherOptions={galleryPhotos.length > 0} />
     </div>
   );
 };

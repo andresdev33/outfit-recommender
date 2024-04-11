@@ -1,9 +1,9 @@
 import classes from "./Gallery.module.css";
 
-const Gallery = ({photos, showOtherOptions = false}) => {
+const Gallery = ({ photos, showOtherOptions = false }) => {
     return (
         <>
-            {showOtherOptions && <h2>Other Options</h2>}
+            {showOtherOptions && <h2>Your cool outfit!</h2>}
             <div className={classes.gallery}>
                 {photos.map((photo, index) => (
                     <img
