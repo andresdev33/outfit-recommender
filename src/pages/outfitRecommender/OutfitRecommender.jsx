@@ -45,7 +45,7 @@ const OutfitRecommender = () => {
       console.log('[RESPONSE] Data: ', response.data);
 
       setAvatar(selectedImage);
-      const responsePhotos = response.data.map(item => `img/${item.source}`);
+      const responsePhotos = response.data.map(item => ({ message: item.message, source: `img/${item.source}` }));
       setGalleryPhotos([selectedImage, ...responsePhotos]);
       setLoading(false);
     } catch (error) {
